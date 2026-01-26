@@ -2,12 +2,17 @@ package main
 
 import (
 	"fmt"
+	"go/study/configs"
+	"go/study/internal/auth"
 	"net/http"
 )
 
 func main() {
+	conf := configs.LoadConfig()
 	router := http.NewServeMux()
-	NewHandler(router)
+	auth.NewAuthHandler(router, auth.AuthHandlerDeps{
+		Config: conf,
+	})
 
 	server := http.Server{
 		Addr:    ":8081",
